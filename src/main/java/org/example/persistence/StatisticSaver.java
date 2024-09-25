@@ -1,9 +1,7 @@
 package org.example.persistence;
 import org.example.model.Rechtschreibtrainer;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class StatisticSaver {
 
@@ -12,6 +10,16 @@ public class StatisticSaver {
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(rechtschreibtrainer);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Rechtschreibtrainer loadModel() {
+        try (FileInputStream fileIn = new FileInputStream("rechtschreibtrainer.ser");
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {
+            Rechtschreibtrainer person = (Rechtschreibtrainer) in.readObject();
+            return person;
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
