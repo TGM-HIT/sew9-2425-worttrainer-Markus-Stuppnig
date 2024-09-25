@@ -1,8 +1,9 @@
 package org.example.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Rechtschreibtrainer {
+public class Rechtschreibtrainer implements Serializable {
 
     private int richtig;
     private int insgesamt;

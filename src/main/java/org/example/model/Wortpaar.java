@@ -1,8 +1,9 @@
 package org.example.model;
 
+import java.io.Serializable;
 import java.net.URL;
 
-public class Wortpaar {
+public class Wortpaar implements Serializable {
 
     private String url;
     private String wort;
