@@ -2,6 +2,10 @@ package org.example;
 
 import org.example.model.Rechtschreibtrainer;
 import org.example.model.Wortpaar;
+import org.example.persistence.SerializableSaver;
+import org.example.persistence.StatisticSaver;
+
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,18 +21,29 @@ public class Main {
         Wortpaar wortpaar9 = new Wortpaar("https://image.geo.de/30085442/t/Op/v3/w1440/r1.3333/-/wolke-herz-gross-jpg--41028-.jpg", "Wolke");
         Wortpaar wortpaar10 = new Wortpaar("https://www.allnatura.at/bild/configurator/data/product/33/_cache/_lg/1_600__2_600_611__3_621__4_621_618.webp", "Tisch");
 
-        Rechtschreibtrainer rechtschreibtrainer = new Rechtschreibtrainer();
-        rechtschreibtrainer.addWortpaar(wortpaar1);
-        rechtschreibtrainer.addWortpaar(wortpaar2);
-        rechtschreibtrainer.addWortpaar(wortpaar3);
-        rechtschreibtrainer.addWortpaar(wortpaar4);
-        rechtschreibtrainer.addWortpaar(wortpaar5);
-        rechtschreibtrainer.addWortpaar(wortpaar6);
-        rechtschreibtrainer.addWortpaar(wortpaar7);
-        rechtschreibtrainer.addWortpaar(wortpaar8);
-        rechtschreibtrainer.addWortpaar(wortpaar9);
-        rechtschreibtrainer.addWortpaar(wortpaar10);
+        Rechtschreibtrainer rechtschreibtrainer = StatisticSaver.loadModel(new SerializableSaver());
 
-        rechtschreibtrainer.waehleRandomWortpaar();
+        if(rechtschreibtrainer == null) {
+            rechtschreibtrainer = new Rechtschreibtrainer();
+
+            rechtschreibtrainer.addWortpaar(wortpaar1);
+            rechtschreibtrainer.addWortpaar(wortpaar2);
+            rechtschreibtrainer.addWortpaar(wortpaar3);
+            rechtschreibtrainer.addWortpaar(wortpaar4);
+            rechtschreibtrainer.addWortpaar(wortpaar5);
+            rechtschreibtrainer.addWortpaar(wortpaar6);
+            rechtschreibtrainer.addWortpaar(wortpaar7);
+            rechtschreibtrainer.addWortpaar(wortpaar8);
+            rechtschreibtrainer.addWortpaar(wortpaar9);
+            rechtschreibtrainer.addWortpaar(wortpaar10);
+        }
+
+        boolean running = true;
+        while(running) {
+            rechtschreibtrainer.waehleRandomWortpaar();
+
+            JOptionPane.showInputDialog(null, "");
+        }
+
     }
 }
