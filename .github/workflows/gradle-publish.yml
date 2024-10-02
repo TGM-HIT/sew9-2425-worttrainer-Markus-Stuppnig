@@ -8,8 +8,8 @@
 name: Gradle Package
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -35,10 +35,15 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-    - name: Publish to GitHub Packages
-      run: ./gradlew publish
-      env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/upload-artifact@v3
+      with:
+          name: Package
+          path: build/libs
+          retention-days: 1
+    - uses: marvinpinto/action-automatic-releases@latest
+      with:
+          repo_token: "${{ secrets.GITHUBTOKEN }}"
+          automatic_release_tag: "AutomaticReleaseV${{ github.run_number }}"
+          title: "Automated Build v${{ github.run_number }}"
+          prerelease: false
+          files: build/libs/*.jar
