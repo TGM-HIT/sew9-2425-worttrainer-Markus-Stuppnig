@@ -5,7 +5,11 @@ import org.example.model.Wortpaar;
 import org.example.persistence.SerializableSaver;
 import org.example.persistence.StatisticSaver;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
 
 public class Main {
     public static void main(String[] args) {
@@ -38,12 +42,26 @@ public class Main {
             rechtschreibtrainer.addWortpaar(wortpaar10);
         }
 
-        boolean running = true;
-        while(running) {
+        while(true) {
             rechtschreibtrainer.waehleRandomWortpaar();
 
-            JOptionPane.showInputDialog(null, "");
-        }
+            Image image;
+            try {
+                image = ImageIO.read(new URL(rechtschreibtrainer.getBildURL()));
+                image = image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Icon icon = new ImageIcon(image);
 
+            Object input = JOptionPane.showInputDialog(null, "Wie schreibt man das?", "Input Dialog", JOptionPane.INFORMATION_MESSAGE, icon, null, "");
+
+            if(input == null || ((String) input).equals("")) break;
+
+            if(((String) input).equals(rechtschreibtrainer.getWort())) {
+                rechtschreibtrainer.setRichtig(rechtschreibtrainer.getRichtig() + 1);
+            }
+            rechtschreibtrainer.setInsgesamt(rechtschreibtrainer.getInsgesamt() + 1);
+        }
     }
 }

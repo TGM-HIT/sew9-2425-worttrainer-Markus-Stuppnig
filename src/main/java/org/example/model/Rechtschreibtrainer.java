@@ -12,7 +12,7 @@ public class Rechtschreibtrainer implements Serializable {
     private ArrayList<Wortpaar> wortpaare;
 
     public Rechtschreibtrainer() {
-
+        this.wortpaare = new ArrayList<>();
     }
 
     public void waehleWortpaar(int index) {
@@ -20,7 +20,7 @@ public class Rechtschreibtrainer implements Serializable {
     }
 
     public void waehleRandomWortpaar() {
-        waehleWortpaar((int) Math.random() * this.wortpaare.size());
+        waehleWortpaar((int) (Math.random() * this.wortpaare.size()));
     }
 
     public int getRichtig() {
@@ -51,5 +51,9 @@ public class Rechtschreibtrainer implements Serializable {
 
     public String getBildURL() {
         return this.wortpaar.getUrl();
+    }
+
+    public String getWort() {
+        return this.wortpaar.getWort();
     }
 }
