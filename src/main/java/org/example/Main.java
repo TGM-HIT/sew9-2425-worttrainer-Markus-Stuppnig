@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.gui.JOptionView;
 import org.example.model.Rechtschreibtrainer;
 import org.example.model.Wortpaar;
 import org.example.persistence.SerializableSaver;
@@ -44,6 +45,8 @@ public class Main {
             rechtschreibtrainer.addWortpaar(wortpaar10);
         }
 
+        JOptionView view = new JOptionView();
+
         boolean vorherigerVersuchExistent = false;
         boolean vorherigerVersuchErgebnis = false;
 
@@ -60,7 +63,7 @@ public class Main {
             }
             Icon icon = new ImageIcon(image);
 
-            Object input = JOptionPane.showInputDialog(null, (vorherigerVersuchExistent ? (vorherigerVersuchErgebnis ? "RICHTIG! " : "FALSCH! ") : "") + "Bisher Richtig: " + rechtschreibtrainer.getRichtig() + "/" + rechtschreibtrainer.getInsgesamt() + ". Wie schreibt man das?", "Input Dialog", JOptionPane.INFORMATION_MESSAGE, icon, null, "");
+            Object input = view.nextWort(icon, (vorherigerVersuchExistent ? (vorherigerVersuchErgebnis ? "RICHTIG! " : "FALSCH! ") : "") + "Bisher Richtig: " + rechtschreibtrainer.getRichtig() + "/" + rechtschreibtrainer.getInsgesamt() + ". Wie schreibt man das?");
 
             if(input == null || ((String) input).equals("")) break;
 
@@ -72,12 +75,11 @@ public class Main {
             }
             rechtschreibtrainer.setInsgesamt(rechtschreibtrainer.getInsgesamt() + 1);
 
-
             vorherigerVersuchExistent = true;
         }
 
-        Object input = JOptionPane.showConfirmDialog(null, "Worttrainer speichern?", "Speichern?", JOptionPane.YES_NO_OPTION);
-        if((int) input == JOptionPane.YES_OPTION) {
+        boolean saveModel = view.showSaveModelDialogue();
+        if(saveModel) {
             StatisticSaver.saveModel(saver, rechtschreibtrainer);
         }
     }
