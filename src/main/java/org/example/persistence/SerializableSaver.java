@@ -17,13 +17,16 @@ public class SerializableSaver implements Speicherstrategie {
 
     @Override
     public Rechtschreibtrainer loadModel() {
+        System.out.println("Loading rechtschreibtrainer");
         try (FileInputStream fileIn = new FileInputStream("rechtschreibtrainer.ser");
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
-            Rechtschreibtrainer person = (Rechtschreibtrainer) in.readObject();
-            return person;
+            System.out.println("Loaded rechtschreibtrainer");
+            Rechtschreibtrainer trainer = (Rechtschreibtrainer) in.readObject();
+            System.out.println(trainer.getInsgesamt());
+            return trainer;
         } catch (IOException | ClassNotFoundException e) {
-        }finally {
-            return null;
+            System.out.println(e.getMessage());
         }
+        return null;
     }
 }

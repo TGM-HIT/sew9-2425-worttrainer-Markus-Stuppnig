@@ -25,9 +25,11 @@ public class Main {
         Wortpaar wortpaar9 = new Wortpaar("https://image.geo.de/30085442/t/Op/v3/w1440/r1.3333/-/wolke-herz-gross-jpg--41028-.jpg", "Wolke");
         Wortpaar wortpaar10 = new Wortpaar("https://www.allnatura.at/bild/configurator/data/product/33/_cache/_lg/1_600__2_600_611__3_621__4_621_618.webp", "Tisch");
 
-        Rechtschreibtrainer rechtschreibtrainer = StatisticSaver.loadModel(new SerializableSaver());
+        SerializableSaver saver = new SerializableSaver();
+        Rechtschreibtrainer rechtschreibtrainer = StatisticSaver.loadModel(saver);
 
         if(rechtschreibtrainer == null) {
+            System.out.println("is nul");
             rechtschreibtrainer = new Rechtschreibtrainer();
 
             rechtschreibtrainer.addWortpaar(wortpaar1);
@@ -42,11 +44,15 @@ public class Main {
             rechtschreibtrainer.addWortpaar(wortpaar10);
         }
 
+        boolean vorherigerVersuchExistent = false;
+        boolean vorherigerVersuchErgebnis = false;
+
         while(true) {
             rechtschreibtrainer.waehleRandomWortpaar();
 
             Image image;
             try {
+                System.out.println(rechtschreibtrainer.getBildURL());
                 image = ImageIO.read(new URL(rechtschreibtrainer.getBildURL()));
                 image = image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
             } catch (IOException e) {
@@ -54,14 +60,25 @@ public class Main {
             }
             Icon icon = new ImageIcon(image);
 
-            Object input = JOptionPane.showInputDialog(null, "Wie schreibt man das?", "Input Dialog", JOptionPane.INFORMATION_MESSAGE, icon, null, "");
+            Object input = JOptionPane.showInputDialog(null, (vorherigerVersuchExistent ? (vorherigerVersuchErgebnis ? "RICHTIG! " : "FALSCH! ") : "") + "Bisher Richtig: " + rechtschreibtrainer.getRichtig() + "/" + rechtschreibtrainer.getInsgesamt() + ". Wie schreibt man das?", "Input Dialog", JOptionPane.INFORMATION_MESSAGE, icon, null, "");
 
             if(input == null || ((String) input).equals("")) break;
 
             if(((String) input).equals(rechtschreibtrainer.getWort())) {
                 rechtschreibtrainer.setRichtig(rechtschreibtrainer.getRichtig() + 1);
+                vorherigerVersuchErgebnis = true;
+            }else {
+                vorherigerVersuchErgebnis = false;
             }
             rechtschreibtrainer.setInsgesamt(rechtschreibtrainer.getInsgesamt() + 1);
+
+
+            vorherigerVersuchExistent = true;
+        }
+
+        Object input = JOptionPane.showConfirmDialog(null, "Worttrainer speichern?", "Speichern?", JOptionPane.YES_NO_OPTION);
+        if((int) input == JOptionPane.YES_OPTION) {
+            StatisticSaver.saveModel(saver, rechtschreibtrainer);
         }
     }
 }
