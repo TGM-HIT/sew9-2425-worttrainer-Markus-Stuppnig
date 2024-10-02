@@ -1,9 +1,12 @@
 package org.example.gui;
 
-import org.example.model.Rechtschreibtrainer;
-
 import javax.swing.*;
 
+/**
+ * @author Markus Stuppnig
+ * @version 2024-10-02
+ * Die View Klasse welche Methoden für JOptionPane zur Verfügung stellt
+ */
 public class JOptionView {
 
     public Object nextWort(Icon icon, String text) {

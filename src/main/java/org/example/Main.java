@@ -12,6 +12,11 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * @author Markus Stuppnig
+ * @version 2024-10-02
+ * Main Klasse
+ */
 public class Main {
     public static void main(String[] args) {
 
@@ -24,7 +29,6 @@ public class Main {
         Wortpaar wortpaar7 = new Wortpaar("https://www.mayspies.at/out/pictures/master/product/3/buetten-papiere-handgerissen-buettenraender-hadernhaltig-210-x-297-mm-A4_B1031770005.jpg", "Papier");
         Wortpaar wortpaar8 = new Wortpaar("https://images.twinkl.co.uk/tw1n/image/private/t_630/u/ux/pc_ver_1.png", "Maus");
         Wortpaar wortpaar9 = new Wortpaar("https://image.geo.de/30085442/t/Op/v3/w1440/r1.3333/-/wolke-herz-gross-jpg--41028-.jpg", "Wolke");
-        Wortpaar wortpaar10 = new Wortpaar("https://www.allnatura.at/bild/configurator/data/product/33/_cache/_lg/1_600__2_600_611__3_621__4_621_618.webp", "Tisch");
 
         SerializableSaver saver = new SerializableSaver();
         Rechtschreibtrainer rechtschreibtrainer = StatisticSaver.loadModel(saver);
@@ -42,7 +46,6 @@ public class Main {
             rechtschreibtrainer.addWortpaar(wortpaar7);
             rechtschreibtrainer.addWortpaar(wortpaar8);
             rechtschreibtrainer.addWortpaar(wortpaar9);
-            rechtschreibtrainer.addWortpaar(wortpaar10);
         }
 
         JOptionView view = new JOptionView();

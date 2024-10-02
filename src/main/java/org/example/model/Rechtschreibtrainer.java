@@ -3,6 +3,11 @@ package org.example.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * @author Markus Stuppnig
+ * @version 2024-10-02
+ * Die Rechtschreibtrainer Klasse welche die Wortpaare und Methoden dazu zu Verfügung stellt
+ */
 public class Rechtschreibtrainer implements Serializable {
 
     private int richtig;

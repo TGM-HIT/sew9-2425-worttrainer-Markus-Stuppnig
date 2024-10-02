@@ -4,6 +4,11 @@ import org.example.model.Rechtschreibtrainer;
 
 import java.io.*;
 
+/**
+ * @author Markus Stuppnig
+ * @version 2024-10-02
+ * Diese Klasse implementiert die Speicherstrategie Methoden "saveModel" und "loadModel" mit dem Serializable approach.
+ */
 public class SerializableSaver implements Speicherstrategie {
     @Override
     public void saveModel(Rechtschreibtrainer rechtschreibtrainer) {

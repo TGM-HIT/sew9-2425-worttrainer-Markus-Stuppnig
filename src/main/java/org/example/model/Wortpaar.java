@@ -3,6 +3,11 @@ package org.example.model;
 import java.io.Serializable;
 import java.net.URL;
 
+/**
+ * @author Markus Stuppnig
+ * @version 2024-10-02
+ * Ein Wortpaar bestehend aus einem Wort und einer URL zu einem Bild welches dieses Wort repräsentiert
+ */
 public class Wortpaar implements Serializable {
 
     private String url;
