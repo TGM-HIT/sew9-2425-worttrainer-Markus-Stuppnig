@@ -9,6 +9,7 @@ import org.example.persistence.StatisticSaver;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
@@ -50,11 +51,24 @@ public class Main {
         while(true) {
             rechtschreibtrainer.waehleRandomWortpaar();
 
-            Image image;
+            BufferedImage image;
             try {
                 System.out.println(rechtschreibtrainer.getBildURL());
+
                 image = ImageIO.read(new URL(rechtschreibtrainer.getBildURL()));
-                image = image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+
+                int cropSize = Math.min(image.getWidth(), image.getHeight());
+
+                // Define the top-left corner (x, y) of the cropping region
+                if(image.getWidth() >= image.getHeight()) {
+                    int crop = (image.getWidth() - image.getHeight()) / 2;
+                    image = image.getSubimage(crop, 0, cropSize, cropSize);
+                }
+                if(image.getWidth() < image.getHeight()) {
+                    int crop = (image.getHeight() - image.getWidth()) / 2;
+                    image = image.getSubimage(0, crop, cropSize, cropSize);
+                }
+                image = (BufferedImage) image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
