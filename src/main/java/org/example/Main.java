@@ -68,7 +68,14 @@ public class Main {
                     int crop = (image.getHeight() - image.getWidth()) / 2;
                     image = image.getSubimage(0, crop, cropSize, cropSize);
                 }
-                image = (BufferedImage) image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                // Resize the cropped image to 150x150
+                BufferedImage resizedImage = new BufferedImage(150, 150, BufferedImage.TYPE_INT_ARGB);
+                Graphics2D g2d = resizedImage.createGraphics();
+                g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+                g2d.drawImage(image, 0, 0, 150, 150, null);
+                g2d.dispose();
+
+                image = resizedImage;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
